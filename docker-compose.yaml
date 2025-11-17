@@ -1,0 +1,92 @@
+# this is a sample docker-compose of how to use kgap microservices
+# it functions as (1) a list of images to be build, (2) a usage-example and (3) a quick-test
+version: "3.7"
+name: ${COMPOSE_PROJECT_NAME:-kgap}
+# -----------------------------------------------------------------------
+services: 
+  yasgui:
+    image: redpencil/yasgui:latest
+    container_name: test_kgap_yasgui
+    environment:
+      DEFAULT_SPARQL_ENDPOINT: "http://localhost:7200/repositories/${GDB_REPO:-kgap}" # that should be in the setup script | same exposed port as graphdb
+    ports:
+      - "8080:80"
+  graphdb:
+    build:
+      context: ./graphdb
+    image: ${REG_NS:-kgap}/kgap_graphdb:${BUILD_TAG:-latest}
+    container_name: test_kgap_graphdb
+    env_file:
+      - ./.env
+    environment: 
+      - GDB_JAVA_OPTS=-Xms8g -Xmx16g -Dcom.ontotext.graphdb.monitoring.jmx=true
+      #GDB_REPO: kgap                       # default should be changed to reflect the name of your particular case
+      #GDB_HOME_FOLDER: /opt/graphdb/home/  # default might be changed to externalise/persist the storage 
+    ports:
+      - 7200:7200     # HTTP
+    cpus: 4
+    volumes:
+      - ./data:/root/graphdb-import/data
+      # todo later - consider mounted volumes for persistence of data ?
+    # For heavy-feature GraphDB repos that take longer to initialize, override healthcheck:
+    # healthcheck:
+    #   start_period: 30s
+    #   interval: 5s
+    #   timeout: 3s
+    #   retries: 3
+
+  jupyter:
+    build:
+      context: ./jupyter
+    image: ${REG_NS:-kgap}/kgap_jupyter:${BUILD_TAG:-latest}
+    container_name: test_kgap_jupyter
+    ports:
+      - "8889:8888"
+    links:
+      - graphdb
+    volumes:
+      - "./notebooks:/notebooks"
+      - "./data:/data"
+    env_file:
+      - ./.env
+    environment:
+      GDB_BASE: "http://graphdb:7200/"
+      NOTEBOOK_ARGS: "--NotebookApp.token=''"
+    depends_on:
+      graphdb:
+        condition: service_healthy
+
+  sembench:
+    build:
+      context: ./sembench
+    image: ${REG_NS:-kgap}/kgap_sembench:${BUILD_TAG:-latest}
+    container_name: test_kgap_sembench
+    volumes:
+      - "./data:/data"
+    env_file:
+      - ./.env
+    # environment:
+    #   - INPUT_DATA_LOCATION=/data
+    #   - OUTPUT_DATA_LOCATION=/data
+    #   - SEMBENCH_DATA_LOCATION=/data
+    #   - SEMBENCH_CONFIG_PATH=/data/sembench.json
+    #   - SCHEDULER_INTERVAL_SECONDS=86400
+    depends_on:
+      graphdb:
+        condition: service_healthy
+
+  ldes-consumer:
+    build:
+      context: ./ldes-consumer
+    image: ${REG_NS:-kgap}/kgap_ldes-consumer:${BUILD_TAG:-latest}
+    container_name: test_kgap_ldes_consumer
+    volumes:
+      - "./data:/data"
+      - "/var/run/docker.sock:/var/run/docker.sock"  # Required to spawn docker containers
+    env_file:
+      - ./.env
+    environment:
+      - DOCKER_NETWORK=${COMPOSE_PROJECT_NAME:-kgap}_default
+    depends_on:
+      graphdb:
+        condition: service_healthy

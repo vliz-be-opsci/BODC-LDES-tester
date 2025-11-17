@@ -1,0 +1,12 @@
+
+
+#Python packages for data science
+#pysema
+jupyter
+jupyterlab
+jupyterlab_widgets
+numpy
+rdflib
+
+# Include py-sema from GitHub
+git+https://github.com/vliz-be-opsci/py-sema.git
