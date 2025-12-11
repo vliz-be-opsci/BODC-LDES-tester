@@ -11,6 +11,10 @@ feeds:
     environment:  # optional additional environment variables
       # Add any additional environment variables needed by ldes2sparql here
       # EXAMPLE_VAR: value
+  - name: BODC-P02-test
+    url: http://vocab.nerc.ac.uk/ldes/P02/
+    sparql_endpoint: http://graphdb:7200/repositories/kgap/statements
+    polling_interval: 90  # seconds (optional, defaults to 60) - converted to milliseconds internally
 
   # Example feed 2 - Another generic example
   # - name: example-feed-2

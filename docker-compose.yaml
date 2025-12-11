@@ -12,9 +12,7 @@ services:
     ports:
       - "8080:80"
   graphdb:
-    build:
-      context: ./graphdb
-    image: ${REG_NS:-kgap}/kgap_graphdb:${BUILD_TAG:-latest}
+    image: ghcr.io/vliz-be-opsci/kgap/kgap_graphdb:latest
     container_name: test_kgap_graphdb
     env_file:
       - ./.env
@@ -36,9 +34,7 @@ services:
     #   retries: 3
 
   jupyter:
-    build:
-      context: ./jupyter
-    image: ${REG_NS:-kgap}/kgap_jupyter:${BUILD_TAG:-latest}
+    image: ghcr.io/vliz-be-opsci/kgap/kgap_jupyter:latest
     container_name: test_kgap_jupyter
     ports:
       - "8889:8888"
@@ -57,9 +53,7 @@ services:
         condition: service_healthy
 
   sembench:
-    build:
-      context: ./sembench
-    image: ${REG_NS:-kgap}/kgap_sembench:${BUILD_TAG:-latest}
+    image: ghcr.io/vliz-be-opsci/kgap/kgap_sembench:latest
     container_name: test_kgap_sembench
     volumes:
       - "./data:/data"
@@ -76,9 +70,7 @@ services:
         condition: service_healthy
 
   ldes-consumer:
-    build:
-      context: ./ldes-consumer
-    image: ${REG_NS:-kgap}/kgap_ldes-consumer:${BUILD_TAG:-latest}
+    image: ghcr.io/vliz-be-opsci/kgap/kgap_ldes-consumer:latest
     container_name: test_kgap_ldes_consumer
     volumes:
       - "./data:/data"
