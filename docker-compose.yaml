@@ -4,13 +4,13 @@ version: "3.7"
 name: ${COMPOSE_PROJECT_NAME:-kgap}
 # -----------------------------------------------------------------------
 services: 
-  yasgui:
-    image: redpencil/yasgui:latest
-    container_name: test_kgap_yasgui
-    environment:
-      DEFAULT_SPARQL_ENDPOINT: "http://localhost:7200/repositories/${GDB_REPO:-kgap}" # that should be in the setup script | same exposed port as graphdb
-    ports:
-      - "8080:80"
+  #yasgui:
+  #  image: redpencil/yasgui:latest
+  #  container_name: test_kgap_yasgui
+  #  environment:
+  #    DEFAULT_SPARQL_ENDPOINT: "http://localhost:7200/repositories/${GDB_REPO:-kgap}" # that should be in the setup script | same exposed port as graphdb
+  #  ports:
+  #    - "8080:80"
   graphdb:
     image: ghcr.io/vliz-be-opsci/kgap/kgap_graphdb:latest
     container_name: test_kgap_graphdb
@@ -33,41 +33,41 @@ services:
     #   timeout: 3s
     #   retries: 3
 
-  jupyter:
-    image: ghcr.io/vliz-be-opsci/kgap/kgap_jupyter:latest
-    container_name: test_kgap_jupyter
-    ports:
-      - "8889:8888"
-    links:
-      - graphdb
-    volumes:
-      - "./notebooks:/notebooks"
-      - "./data:/data"
-    env_file:
-      - ./.env
-    environment:
-      GDB_BASE: "http://graphdb:7200/"
-      NOTEBOOK_ARGS: "--NotebookApp.token=''"
-    depends_on:
-      graphdb:
-        condition: service_healthy
-
-  sembench:
-    image: ghcr.io/vliz-be-opsci/kgap/kgap_sembench:latest
-    container_name: test_kgap_sembench
-    volumes:
-      - "./data:/data"
-    env_file:
-      - ./.env
-    # environment:
-    #   - INPUT_DATA_LOCATION=/data
-    #   - OUTPUT_DATA_LOCATION=/data
-    #   - SEMBENCH_DATA_LOCATION=/data
-    #   - SEMBENCH_CONFIG_PATH=/data/sembench.json
-    #   - SCHEDULER_INTERVAL_SECONDS=86400
-    depends_on:
-      graphdb:
-        condition: service_healthy
+  #jupyter:
+  #  image: ghcr.io/vliz-be-opsci/kgap/kgap_jupyter:latest
+  #  container_name: test_kgap_jupyter
+  #  ports:
+  #    - "8889:8888"
+  #  links:
+  #    - graphdb
+  #  volumes:
+  #    - "./notebooks:/notebooks"
+  #    - "./data:/data"
+  #  env_file:
+  #    - ./.env
+  #  environment:
+  #    GDB_BASE: "http://graphdb:7200/"
+  #    NOTEBOOK_ARGS: "--NotebookApp.token=''"
+  #  depends_on:
+  #    graphdb:
+  #      condition: service_healthy
+#
+  #sembench:
+  #  image: ghcr.io/vliz-be-opsci/kgap/kgap_sembench:latest
+  #  container_name: test_kgap_sembench
+  #  volumes:
+  #    - "./data:/data"
+  #  env_file:
+  #    - ./.env
+  #  # environment:
+  #  #   - INPUT_DATA_LOCATION=/data
+  #  #   - OUTPUT_DATA_LOCATION=/data
+  #  #   - SEMBENCH_DATA_LOCATION=/data
+  #  #   - SEMBENCH_CONFIG_PATH=/data/sembench.json
+  #  #   - SCHEDULER_INTERVAL_SECONDS=86400
+  #  depends_on:
+  #    graphdb:
+  #      condition: service_healthy
 
   ldes-consumer:
     image: ghcr.io/vliz-be-opsci/kgap/kgap_ldes-consumer:latest
