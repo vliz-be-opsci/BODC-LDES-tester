@@ -3,16 +3,12 @@
 # .. configured via LDES_CONFIG_FILE environment variable
 
 feeds:
-  - name: MRG-test
-    url: http://marineregions.org/feed/
-    sparql_endpoint: http://graphdb:7200/repositories/bodc_ldes_test/statements
-    polling_interval: 90  # seconds
-  - name: mtt-P02-NL
-    url: https://marine-term-translations.github.io/P02-NL/LDES/latest.ttl
-    sparql_endpoint: http://graphdb:7200/repositories/bodc_ldes_test/statements
-    polling_interval: 60  # seconds
-  - name: BODC-P02-test
-    url: http://vocab.nerc.ac.uk/ldes/P02/
-    sparql_endpoint: http://graphdb:7200/repositories/bodc_ldes_test/statements
-    polling_interval: 90  # seconds
-
+  #bodc-P02:
+  #  url: http://vocab.nerc.ac.uk/ldes/P02/
+  #  environment:
+  #    MATERIALIZE: "false"
+  mtt-P02-TEST:
+    url: https://marine-term-translations.github.io/P02-TEST/P02/latest.ttl
+    environment:
+      MATERIALIZE: "true"
+      #SHAPE: "/data/mtt-bodc-shape.ttl"

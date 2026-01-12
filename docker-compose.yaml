@@ -3,13 +3,13 @@
 name: ${COMPOSE_PROJECT_NAME:-kgap}
  -----------------------------------------------------------------------
 services: 
-  yasgui:
-    image: redpencil/yasgui:latest
-    container_name: test_kgap_yasgui
-    environment:
-      DEFAULT_SPARQL_ENDPOINT: "http://localhost:7200/repositories/${GDB_REPO:-kgap}" # that should be in the setup script | same exposed port as graphdb
-    ports:
-      - "8080:80"
+  #yasgui:
+  #  image: redpencil/yasgui:latest
+  #  container_name: test_kgap_yasgui
+  #  environment:
+  #    DEFAULT_SPARQL_ENDPOINT: "http://localhost:7200/repositories/${GDB_REPO:-kgap}" # that should be in the setup script | same exposed port as graphdb
+  #  ports:
+  #    - "8080:80"
   graphdb:
     image: ghcr.io/vliz-be-opsci/kgap/kgap_graphdb:latest
     container_name: test_kgap_graphdb
