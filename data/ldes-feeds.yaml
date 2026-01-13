@@ -12,3 +12,13 @@ feeds:
     environment:
       MATERIALIZE: "true"
       #SHAPE: "/data/mtt-bodc-shape.ttl"
+  mtt-P02-TEST-M2:
+    url: https://marine-term-translations.github.io/P02-TEST/P02-M2/latest.ttl
+    environment:
+      MATERIALIZE: "true"
+      #SHAPE: "/data/mtt-bodc-shape.ttl"
+  mtt-P02-TEST-M3:
+    url: https://marine-term-translations.github.io/P02-TEST/P02-M3/latest.ttl
+    environment:
+      MATERIALIZE: "true"
+      #SHAPE: "/data/mtt-bodc-shape.ttl"
