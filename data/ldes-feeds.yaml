@@ -1,5 +1,6 @@
-# Example LDES feeds configuration file
-# This file should be placed in the data directory and configured via LDES_CONFIG_FILE environment variable
+# LDES feeds configuration file
+# .. should be placed in the data directory and 
+# .. configured via LDES_CONFIG_FILE environment variable
 
 feeds:
   #bodc-P02:
@@ -8,6 +9,16 @@ feeds:
   #    MATERIALIZE: "false"
   mtt-P02-TEST:
     url: https://marine-term-translations.github.io/P02-TEST/P02/latest.ttl
+    environment:
+      MATERIALIZE: "true"
+      #SHAPE: "/data/mtt-bodc-shape.ttl"
+  mtt-P02-TEST-M2:
+    url: https://marine-term-translations.github.io/P02-TEST/P02-M2/latest.ttl
+    environment:
+      MATERIALIZE: "true"
+      #SHAPE: "/data/mtt-bodc-shape.ttl"
+  mtt-P02-TEST-M3:
+    url: https://marine-term-translations.github.io/P02-TEST/P02-M3/latest.ttl
     environment:
       MATERIALIZE: "true"
       #SHAPE: "/data/mtt-bodc-shape.ttl"

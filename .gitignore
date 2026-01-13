@@ -1,0 +1,8 @@
+.env
+/data/data
+/notebooks/.ipynb_checkpoints/
+/notebooks/config
+/notebooks/data
+/notebooks/kgap_template.ipynb
+/notebooks/kgap_tools.py
+
